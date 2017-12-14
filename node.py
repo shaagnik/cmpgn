@@ -11,8 +11,9 @@ class node():
         self.createdOn = datetime.datetime.now()
 
     def display(self):
-        print(self.name)
-        print(self.lDescription)
+        print('name:',self.name)
+        print('type:',self.nodeType)
+        print('description:',self.lDescription)
 
     def set(self,field,value):
         setattr(self, field, value)
