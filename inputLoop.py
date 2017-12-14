@@ -1,4 +1,11 @@
+from node import node
+
+
 _input = ''
+
+n = node('whatever','whatever')
+n.set('lDescription','desc')
+n.display()
 
 print('welcome back, dm')
 
