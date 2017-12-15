@@ -1,4 +1,5 @@
 import datetime
+import urwid
 
 class node(object):
     """represents a base node"""
@@ -18,22 +19,33 @@ class node(object):
     def set(self,field,value):
         setattr(self, field, value)
 
+    def getdisplay(self):
+        return urwid.Text(u'none'), 10, 10
 
-class creature(node):
+class printingTools:
     
-    def __init___(self):
-        super(creature, self).__init__()
-        self.stats = {'str':'','dex':'','con':'','int':'','wis':'','cha':''}
+    def printStats(self, stats):
+        text = u'-------------------------------------------------------\n'
+        text+= u'|  STR   |  DEX   |  CON   |  INT   |  WIS   |  CHA   |\n'
+        text+= u'-------------------------------------------------------\n'
+        text+= u'| '
+        text+= ' | '.join(stats)
+        text+= u' |\n'
+        text+= u'-------------------------------------------------------\n'
+        return text
 
-    def printStats(self):
-        return self.stats
 
-
-class monster(creature):
+class monster(node):
     
     def __init__(self):
-        super(monster, self).__init__()
+        super(monster,self).__init__(self)
+        self.stats = ['10(+0)','10(+0)','10(+0)','10(+0)','10(+0)','10(+0)']
         self.hp_roll = '5d4'
         self.nodeType = 'monster'
         self.name='SCARY MONSTER'
 
+    def getdisplay(self):
+        p = printingTools()
+        text = p.printStats(self.stats)
+        box = urwid.Text(text)
+        return box, 57, 10

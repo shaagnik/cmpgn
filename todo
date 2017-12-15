@@ -1,17 +1,58 @@
 todo
 
-app:
 size/position boxes
-node should provide a linebox with text
-do monster statblock
-print
+print full attributes
 focus on boxes
 close boxes
-deserialize
 use window size?
 
 
+printing list of attributes
+each class's printing/attributes
+add links
+menu widgets
+session notes
+search stuff
+
+
+
+session notes:
+	real date
+	game date
+	text- what happened
+	text- plans
+
+node types:
+	pc:
+		class/race
+		ac/pw
+		stats
+		notable items
+		backstory
+	npc:
+		class/race
+		ac/hp
+		stats
+		personality traits
+		physical traits
+		notable items
+		link to home area
+	area:
+		list of areas with direction/etc
+		list of encounters/rooms
+		special effects/notes
+	monster:
+		stats
+		attacks
+		roller for hp
+	faction:
+		list of npcs with titles
+		list of pcs with titles
+		symbol
+	encounter/room:
+		list of monsters with number
+		trap triggers
 
 
 menu for links
-
+searching

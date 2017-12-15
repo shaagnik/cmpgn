@@ -3,18 +3,27 @@ from nodeList import nodeList
 from commandLine import commandLine
 from canvasWindow import canvasWindow
 from fileOperator import fileOperator
+from randomTools import randomTools
 import urwid
-
+import sys
 
 _list = nodeList()
 _file = fileOperator()
+_tools = randomTools()
 print('welcome back, dm')
+print('cmpgn v0.5 by shagtaw mcgraw')
 
-header = urwid.Text(u'')
- 
+if(len(sys.argv)>1):
+    nodes = _file.read(sys.argv[1])
+    for n in nodes:
+        _list.add(n)
+
+statusLine = urwid.Text(u'status:waiting')
+div = urwid.Text(u'|') 
 bg = canvasWindow(urwid.SolidFill('/'))
 textEntry = commandLine('>')
-body = urwid.Frame(bg, header, textEntry, 'footer');
+footer = urwid.Columns([('weight',1,statusLine), (1, div), ('weight',1,textEntry)])
+body = urwid.Frame(bg, None, footer, 'footer');
 fill = urwid.LineBox(body, 'CMPGN')
 loop = urwid.MainLoop(fill)
 
@@ -27,20 +36,25 @@ def on_input(_input):
     command = _input.split(' ',1)
     if(len(command) < 2):
         return
-    if command[0].startswith('p'):
+    if command[0] == 'roll':
+        #roller
+        statusLine.set_text(_tools.roll(command[1]))
+    elif command[0] == 'mod':
+        #calc mod
+        statusLine.set_text(_tools.mod(command[1]))
+    elif command[0].startswith('p'):
         #print
         currentNode = _list.findByName(command[1])
         if currentNode != 'not found':
-            #currentNode.display()
-            bg.open_box(urwid.SolidFill(u'-'),command[1])
-            #bg = urwid.Overlay(urwid.LineBox(urwid.Text('hello')), bg, 'center', 10, 'center', 10) 
+            box, height, width = currentNode.getdisplay()
+            bg.open_box(urwid.Filler(box),command[1],height,width)
         else:
-            header.set_text(command[1] + ' does not exist.')
+            statusLine.set_text(command[1] + ' does not exist.')
     elif command[0].startswith('a'):
         #add
         test = _list.findByName(command[1])
         if test != 'not found':
-            header.set_text(command[1] + ' already exists.')
+            statusLine.set_text(command[1] + ' already exists.')
         else:
             params = command[1].split('|')
             _list.add(node(params[0],params[1]))
@@ -51,20 +65,26 @@ def on_input(_input):
         if currentNode != 'not found':
             currentNode.set(params[1],params[2])
         else:
-            header.set_text(command[1] + ' does not exist.')
+            statusLine.set_text(command[1] + ' does not exist.')
     elif command[0].startswith('d'):
         _file.write(_list, command[1])
     elif command[0].startswith('l'):
-        newNodes = _file.read(command[1], header)
-        header.set_text(str(len(newNodes)))
+        newNodes = _file.read(command[1], statusLine)
+        statusLine.set_text(str(len(newNodes)))
         for n in newNodes:
-            header.set_text(str(n))
+            statusLine.set_text(str(n))
             _list.add(n)
     elif command[0].startswith('q'):
-        header.set_text(str(len(_list.getlist())))
+        statusLine.set_text(str(len(_list.getlist())))
         for n in _list.getlist():
             bg.open_box(urwid.SolidFill(u'#'),n.name)
-
+    elif command[0].startswith('!'):
+        result = ''
+        try:
+            result = eval(command[1])
+        except:
+            result = 'an error occurred'
+        statusLine.set_text(str(result))
 urwid.connect_signal(textEntry, 'done', on_input)
 
 loop.run()
