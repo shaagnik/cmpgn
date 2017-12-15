@@ -3,7 +3,7 @@ import datetime
 class node():
     """represents a base node"""
 
-    def __init__(self,nodeType,name):
+    def __init__(self,nodeType='npc',name='',serialized=''):
         self.nodeType = nodeType
         self.name = name
         self.lDescription = ''
@@ -17,4 +17,3 @@ class node():
 
     def set(self,field,value):
         setattr(self, field, value)
-        

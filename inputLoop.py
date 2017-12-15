@@ -2,11 +2,12 @@ from node import node
 from nodeList import nodeList
 from commandLine import commandLine
 from canvasWindow import canvasWindow
+from fileOperator import fileOperator
 import urwid
 
 
 _list = nodeList()
-
+_file = fileOperator()
 print('welcome back, dm')
 
 header = urwid.Text(u'')
@@ -51,6 +52,15 @@ def on_input(_input):
             currentNode.set(params[1],params[2])
         else:
             header.set_text(command[1] + ' does not exist.')
+    elif command[0].startswith('d'):
+        _file.write(_list, command[1])
+    elif command[0].startswith('l'):
+        newNodes = _file.read(command[1])
+        for n in newNodes:
+            _list.add(n)
+    elif command[0].startswith('q'):
+        for n in _list:
+            bg.open_box(urwid.SolidFill(u'#'),n.name)
 
 urwid.connect_signal(textEntry, 'done', on_input)
 

@@ -7,6 +7,9 @@ class nodeList():
             if node.name == query:
                 return node
         return 'not found'
+    
+    def getlist(self):
+        return self.list
 
     def add(self, node):
         self.list.append(node)
