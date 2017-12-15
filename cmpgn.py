@@ -55,11 +55,14 @@ def on_input(_input):
     elif command[0].startswith('d'):
         _file.write(_list, command[1])
     elif command[0].startswith('l'):
-        newNodes = _file.read(command[1])
+        newNodes = _file.read(command[1], header)
+        header.set_text(str(len(newNodes)))
         for n in newNodes:
+            header.set_text(str(n))
             _list.add(n)
     elif command[0].startswith('q'):
-        for n in _list:
+        header.set_text(str(len(_list.getlist())))
+        for n in _list.getlist():
             bg.open_box(urwid.SolidFill(u'#'),n.name)
 
 urwid.connect_signal(textEntry, 'done', on_input)
