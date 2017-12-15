@@ -1,5 +1,6 @@
 import datetime
 import urwid
+from printingTools import printingTools
 
 class node(object):
     """represents a base node"""
@@ -21,19 +22,6 @@ class node(object):
 
     def getdisplay(self):
         return urwid.Text(u'none'), 10, 10
-
-class printingTools:
-    
-    def printStats(self, stats):
-        text = u'-------------------------------------------------------\n'
-        text+= u'|  STR   |  DEX   |  CON   |  INT   |  WIS   |  CHA   |\n'
-        text+= u'-------------------------------------------------------\n'
-        text+= u'| '
-        text+= ' | '.join(stats)
-        text+= u' |\n'
-        text+= u'-------------------------------------------------------\n'
-        return text
-
 
 class monster(node):
     
